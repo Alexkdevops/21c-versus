@@ -3,7 +3,7 @@ pipeline {
     kubernetes {
       idleMinutes 5
       defaultContainer 'jenkins-slave'
-      yamlFile 'jenkins-pod.yaml'
+      yamlFile 'jenkins.yaml'
     }
   }
   environment {
@@ -11,29 +11,29 @@ pipeline {
     MYSQL_PASSWORD = credentials('MYSQL_PASSWORD')
   }
   stages {
-    stage ('Initialize the enviromnet') {
+    stage ('Enviromnet') {
       steps {
         script {
-          if (env.GIT_BRANCH == 'staging') {
-            stage ('Stage: staging') {
-                env.STAGE = 'staging'
-                sh 'echo ${STAGE}'
-            }
-          } else if (env.GIT_BRANCH == 'main') {
-            stage ('Stage: prod') {
-                env.STAGE = 'prod'
-                sh 'echo ${STAGE}'
-            } 
-          } else {
+          if (env.GIT_BRANCH == 'dev') {
             stage ('Stage: dev') {
                 env.STAGE = 'dev'
-                sh 'echo ${STAGE}'
+                // sh 'echo ${STAGE}'
+            }
+          } else if (env.GIT_BRANCH == 'prod') {
+            stage ('Stage: prod') {
+                env.STAGE = 'prod'
+                // sh 'echo ${STAGE}'
+            } 
+          } else {
+            stage ('Stage: main') {
+                env.STAGE = 'main'
+                // sh 'echo ${STAGE}'
             }
           }            
         }
       }
     }
-    stage('Build containers') {
+    stage('Build Image') {
       steps {
         dir('frontend') {
           sh 'make build'
@@ -43,25 +43,7 @@ pipeline {
         }
       }
     }
-    stage('Run tests') {
-            parallel {
-                stage('Backend unit test') {
-                    steps {
-                      dir('backend') {
-                        sh 'make test'
-                      }
-                    }
-                }
-                stage('Frontend unit tests') {
-                    steps {
-                        dir('frontend') {
-                          sh 'yarn test --watchAll=false --coverage --silent'
-                        }
-                    }
-                }
-            }
-        }
-    stage('Push artifacts') {
+    stage('Push to Repo') {
             parallel {
                 stage('Push backend') {
                     steps {
@@ -79,7 +61,7 @@ pipeline {
                 }
             }
         }
-    stage('Deploy to the EKS cluster') {
+    stage('Deployment') {
             parallel {
                 stage('Deploy backend') {
                     steps {
@@ -98,9 +80,4 @@ pipeline {
             }
         }
   }
-  post {
-      always {
-         sh "docker system prune -a --volumes -f"
-      }
-   }
 }

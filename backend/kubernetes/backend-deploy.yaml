@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/versus-backend:VERSION
+          image: ACCT.dkr.ecr.REG.amazonaws.com/REPO:VERSION
           env:
           - name: MYSQL_USER
             value: "MYSQL_USER_VALUE"
@@ -36,9 +36,9 @@ spec:
           - name: MYSQL_PORT
             value: "3306"
           - name: MYSQL_HOST
-            value: "database-1.czxfqxkm6ggp.us-east-1.rds.amazonaws.com"
+            value: "versus.c7pmwjifbb9j.us-east-2.rds.amazonaws.com"
           - name: MYSQL_DATABASE
-            value: "testdb"
+            value: "versus"
           ports:
           - containerPort: 8080
           resources: {}

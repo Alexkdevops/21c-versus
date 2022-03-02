@@ -1,13 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  labels:
-    some-label: some-label-value
 spec:
-  serviceAccountName: jenkins
+  serviceAccountName: jenkins-slave
   containers:
   - name: jenkins-slave
-    image: slvust/jenkins-agent
+    image: alexkdevops/jenkins-slave
     command:
     - cat
     tty: true

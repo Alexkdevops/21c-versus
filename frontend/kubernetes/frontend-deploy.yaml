@@ -24,7 +24,7 @@ spec:
         io.kompose.service: frontend
     spec:
       containers:
-      - image: ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/versus-frontend:VERSION
+      - image: ACCT.dkr.ecr.REG.amazonaws.com/REPO:VER
         name: frontend
         ports:
         - containerPort: 8080

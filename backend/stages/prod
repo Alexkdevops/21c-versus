@@ -1,2 +1,4 @@
-namespace = versus-app-prod
-version = 1.0.0
+namespace = prod
+repo = api
+ver = 1.0
+reg = us-east-2

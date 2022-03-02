@@ -1,25 +1,16 @@
-export AWS_REGION = "us-east-1"
+export AWS_REGION = $(reg)
+acct = $(shell aws sts get-caller-identity --query "Account" --output text)
+image = $(acct).dkr.ecr.$(reg).amazonaws.com/$(repo):$(ver)
 stage = ${STAGE}
 include stages/$(stage)
 
-account = $(shell aws sts get-caller-identity --query "Account" --output text)
-repo = versus-backend
-artifact = $(account).dkr.ecr.us-east-1.amazonaws.com/$(repo):$(version)
-
 build:
-	@docker build -t $(artifact) .
+	@docker build -t $(image) .
 
-test:
-	@docker run -d --env-file ./.env.test -e MYSQL_USER=$(MYSQL_USER) -e MYSQL_PASSWORD=$(MYSQL_PASSWORD) --name backend $(artifact)
-	@docker exec -t backend python manage.py test
-	@docker rm -f backend
-
-login:
-	@aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(account).dkr.ecr.us-east-1.amazonaws.com
-
-push: login 
-	@docker push $(artifact)
+push:
+	@aws ecr get-login-password --region $(reg) | docker login --username AWS --password-stdin $(acct).dkr.ecr.$(reg).amazonaws.com
+	@docker push $(image)
 
 deploy:
-	cat kubernetes/backend-deployment.yaml | sed "s/VERSION/$(version)/g;s/ACCOUNT/$(account)/g;s/NAMESPACE/$(namespace)/g;s/MYSQL_USER_VALUE/$(MYSQL_USER)/g;s/MYSQL_PASSWORD_VALUE/$(MYSQL_PASSWORD)/g" | kubectl apply -f -
-	cat kubernetes/backend-service.yaml | sed "s/NAMESPACE/$(namespace)/g" | kubectl apply -f -
+	@cat kubernetes/backend-deploy.yaml | sed "s|VER/$(ver)|g;s|ACCT|$(acct)|g;s|NAMESPACE|$(namespace)|g;s|MYSQL_USER_VALUE|$(MYSQL_USER)|g;s|MYSQL_PASSWORD_VALUE|$(MYSQL_PASSWORD)|g;s|REG|$(reg)|g;s|REPO|$(repo)|g" | kubectl apply -f -
+	@cat kubernetes/backend-svc.yaml | sed "s/NAMESPACE/$(namespace)/g" | kubectl apply -f -
