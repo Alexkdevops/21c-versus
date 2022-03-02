@@ -34,7 +34,7 @@ pipeline {
         }
       }
     }
-    stage('Build Image') {
+    stage('Build Images') {
       steps {
         dir('frontend') {
           sh 'make build'
@@ -46,14 +46,14 @@ pipeline {
     }
     stage('Push to Repo') {
             parallel {
-                stage('Push backend') {
+                stage('Backend') {
                     steps {
                       dir('backend') {
                         sh 'make push'
                       }
                     }
                 }
-                stage('Push frontend') {
+                stage('Frontend') {
                     steps {
                         dir('frontend') {
                           sh 'make push'
