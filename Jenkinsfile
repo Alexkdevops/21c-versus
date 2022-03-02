@@ -44,24 +44,24 @@ pipeline {
         }
       }
     }
-    // stage('Push to Repo') {
-    //         parallel {
-    //             stage('Push backend') {
-    //                 steps {
-    //                   dir('backend') {
-    //                     sh 'make push'
-    //                   }
-    //                 }
-    //             }
-    //             stage('Push frontend') {
-    //                 steps {
-    //                     dir('frontend') {
-    //                       sh 'make push'
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
+    stage('Push to Repo') {
+            parallel {
+                stage('Push backend') {
+                    steps {
+                      dir('backend') {
+                        sh 'make push'
+                      }
+                    }
+                }
+                stage('Push frontend') {
+                    steps {
+                        dir('frontend') {
+                          sh 'make push'
+                        }
+                    }
+                }
+            }
+        }
     // stage('Deployment') {
     //         parallel {
     //             stage('Deploy backend') {
