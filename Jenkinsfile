@@ -34,34 +34,34 @@ pipeline {
         }
       }
     }
-    // stage('Build Images') {
-    //   steps {
-    //     dir('frontend') {
-    //       sh 'make build'
-    //     }
-    //     dir('backend') {
-    //       sh 'make build'
-    //     }
-    //   }
-    // }
-    // stage('Push to Repo') {
-    //         parallel {
-    //             stage('Backend') {
-    //                 steps {
-    //                   dir('backend') {
-    //                     sh 'make push'
-    //                   }
-    //                 }
-    //             }
-    //             stage('Frontend') {
-    //                 steps {
-    //                     dir('frontend') {
-    //                       sh 'make push'
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
+    stage('Build Images') {
+      steps {
+        dir('frontend') {
+          sh 'make build'
+        }
+        dir('backend') {
+          sh 'make build'
+        }
+      }
+    }
+    stage('Push to Repo') {
+            parallel {
+                stage('Backend') {
+                    steps {
+                      dir('backend') {
+                        sh 'make push'
+                      }
+                    }
+                }
+                stage('Frontend') {
+                    steps {
+                        dir('frontend') {
+                          sh 'make push'
+                        }
+                    }
+                }
+            }
+        }
     stage('Deployment') {
             parallel {
                 stage('Deploy backend') {
