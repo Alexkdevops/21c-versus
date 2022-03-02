@@ -62,23 +62,23 @@ pipeline {
                 }
             }
         }
-    // stage('Deployment') {
-    //         parallel {
-    //             stage('Deploy backend') {
-    //                 steps {
-    //                   dir('backend') {
-    //                     sh 'make deploy'
-    //                   }
-    //                 }
-    //             }
-    //             stage('Deploy frontend') {
-    //                 steps {
-    //                     dir('frontend') {
-    //                       sh 'make deploy'
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
+    stage('Deployment') {
+            parallel {
+                stage('Deploy backend') {
+                    steps {
+                      dir('backend') {
+                        sh 'make deploy'
+                      }
+                    }
+                }
+                stage('Deploy frontend') {
+                    steps {
+                        dir('frontend') {
+                          sh 'make deploy'
+                        }
+                    }
+                }
+            }
+        }
   }
 }
