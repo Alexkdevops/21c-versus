@@ -16,7 +16,7 @@ spec:
         app: api
     spec:
       containers:
-      - name: api-pod
+      - name: backend
         image: ACCT.dkr.ecr.REG.amazonaws.com/REPO:VER
         ports:
         - containerPort: 8080
