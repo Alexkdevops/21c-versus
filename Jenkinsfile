@@ -1,7 +1,6 @@
 pipeline {
   agent {
     kubernetes {
-      idleMinutes 5
       defaultContainer 'jenkins-slave'
       yamlFile 'jenkins.yaml'
     }
@@ -17,17 +16,17 @@ pipeline {
           if (env.GIT_BRANCH == 'dev') {
             stage ('Stage: dev') {
                 env.STAGE = 'dev'
-                // sh 'echo ${STAGE}'
+                sh 'echo ${STAGE}'
             }
           } else if (env.GIT_BRANCH == 'prod') {
             stage ('Stage: prod') {
                 env.STAGE = 'prod'
-                // sh 'echo ${STAGE}'
+                sh 'echo ${STAGE}'
             } 
           } else {
             stage ('Stage: main') {
                 env.STAGE = 'main'
-                // sh 'echo ${STAGE}'
+                sh 'echo ${STAGE}'
             }
           }            
         }
@@ -43,41 +42,41 @@ pipeline {
         }
       }
     }
-    stage('Push to Repo') {
-            parallel {
-                stage('Push backend') {
-                    steps {
-                      dir('backend') {
-                        sh 'make push'
-                      }
-                    }
-                }
-                stage('Push frontend') {
-                    steps {
-                        dir('frontend') {
-                          sh 'make push'
-                        }
-                    }
-                }
-            }
-        }
-    stage('Deployment') {
-            parallel {
-                stage('Deploy backend') {
-                    steps {
-                      dir('backend') {
-                        sh 'make deploy'
-                      }
-                    }
-                }
-                stage('Deploy frontend') {
-                    steps {
-                        dir('frontend') {
-                          sh 'make deploy'
-                        }
-                    }
-                }
-            }
-        }
+    // stage('Push to Repo') {
+    //         parallel {
+    //             stage('Push backend') {
+    //                 steps {
+    //                   dir('backend') {
+    //                     sh 'make push'
+    //                   }
+    //                 }
+    //             }
+    //             stage('Push frontend') {
+    //                 steps {
+    //                     dir('frontend') {
+    //                       sh 'make push'
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // stage('Deployment') {
+    //         parallel {
+    //             stage('Deploy backend') {
+    //                 steps {
+    //                   dir('backend') {
+    //                     sh 'make deploy'
+    //                   }
+    //                 }
+    //             }
+    //             stage('Deploy frontend') {
+    //                 steps {
+    //                     dir('frontend') {
+    //                       sh 'make deploy'
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
   }
 }
