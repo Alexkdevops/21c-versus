@@ -1,14 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: api-deployment
   namespace: NAMESPACE
   labels:
     app: api
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       app: api
@@ -18,18 +16,44 @@ spec:
         app: api
     spec:
       containers:
-      - name: backend
+      - name: api-pod
         image: ACCT.dkr.ecr.REG.amazonaws.com/REPO:VER
-        env:
-        - name: MYSQL_USER
-          value: "MYSQL_USER_VALUE"
-        - name: MYSQL_PASSWORD
-          value: "MYSQL_PASSWORD_VALUE"
-        - name: MYSQL_PORT
-          value: "3306"
-        - name: MYSQL_HOST
-          value: "versus.c7pmwjifbb9j.us-east-2.rds.amazonaws.com"
-        - name: MYSQL_DATABASE
-          value: "versus"
         ports:
         - containerPort: 8080
+
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: backend
+#   namespace: NAMESPACE
+#   labels:
+#     app: api
+# spec:
+#   replicas: 1
+#   strategy:
+#     type: Recreate
+#   selector:
+#     matchLabels:
+#       app: api
+#   template:
+#     metadata:
+#       labels:
+#         app: api
+#     spec:
+#       containers:
+#       - name: backend
+#         image: ACCT.dkr.ecr.REG.amazonaws.com/REPO:VER
+#         env:
+#         - name: MYSQL_USER
+#           value: "MYSQL_USER_VALUE"
+#         - name: MYSQL_PASSWORD
+#           value: "MYSQL_PASSWORD_VALUE"
+#         - name: MYSQL_PORT
+#           value: "3306"
+#         - name: MYSQL_HOST
+#           value: "versus.c7pmwjifbb9j.us-east-2.rds.amazonaws.com"
+#         - name: MYSQL_DATABASE
+#           value: "versus"
+#         ports:
+#         - containerPort: 8080
