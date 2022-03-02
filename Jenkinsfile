@@ -8,8 +8,8 @@ pipeline {
   environment {
     // MYSQL_USER     = credentials('MYSQL_USER')
     // MYSQL_PASSWORD = credentials('MYSQL_PASSWORD')
-    MYSQL_USER     = admin
-    MYSQL_PASSWORD = password
+    MYSQL_USER     = 'admin'
+    MYSQL_PASSWORD = 'password'
   }
   stages {
     stage ('Enviromnet') {
