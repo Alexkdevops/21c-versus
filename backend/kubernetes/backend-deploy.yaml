@@ -33,5 +33,3 @@ spec:
           value: "versus"
         ports:
         - containerPort: 8080
-        resources: {}
-    restartPolicy: Always
