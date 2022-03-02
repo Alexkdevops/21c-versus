@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   namespace: NAMESPACE
   labels:
-    app: backend
+    app: api
   name: backend
 spec:
   selector:
     matchLabels:
-      app: backend
+      app: api
   replicas: 1
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: backend
+        app: api
     spec:
       containers:
         - name: backend
