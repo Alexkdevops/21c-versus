@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: back_end
+  name: backendd
   namespace: NAMESPACE
   labels:
     app: api
@@ -20,14 +20,14 @@ spec:
         image: ACCT.dkr.ecr.REG.amazonaws.com/REPO:VER
         ports:
         - containerPort: 8080
-        # env:
-        # - name: MYSQL_USER
-        #   value: "MYSQL_USER_VALUE"
-        # - name: MYSQL_PASSWORD
-        #   value: "MYSQL_PASSWORD_VALUE"
-        # - name: MYSQL_PORT
-        #   value: "3306"
-        # - name: MYSQL_HOST
-        #   value: "versus.c7pmwjifbb9j.us-east-2.rds.amazonaws.com"
-        # - name: MYSQL_DATABASE
-        #   value: "versus"
+        env:
+        - name: MYSQL_USER
+          value: "MYSQL_USER_VALUE"
+        - name: MYSQL_PASSWORD
+          value: "MYSQL_PASSWORD_VALUE"
+        - name: MYSQL_PORT
+          value: "3306"
+        - name: MYSQL_HOST
+          value: "versus.c7pmwjifbb9j.us-east-2.rds.amazonaws.com"
+        - name: MYSQL_DATABASE
+          value: "versus"
