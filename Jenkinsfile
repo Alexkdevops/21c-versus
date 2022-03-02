@@ -2,7 +2,7 @@ pipeline {
   agent {
     kubernetes {
       defaultContainer 'jenkins-slave'
-      yamlFile 'jenkins.yaml'
+      yamlFile 'jenkins-slave.yaml'
     }
   }
   environment {
