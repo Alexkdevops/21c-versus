@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ACCT.dkr.ecr.REG.amazonaws.com/REPO:VERSION
+          image: ACCT.dkr.ecr.REG.amazonaws.com/REPO:VER
           # env:
           # - name: MYSQL_USER
           #   value: "MYSQL_USER_VALUE"
