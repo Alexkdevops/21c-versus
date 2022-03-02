@@ -18,5 +18,4 @@ push:
 
 deploy:
 	@cat kubernetes/frontend-deploy.yaml | sed "s|VER|$(ver)|g; s|ACCT|$(acct)|g; s|NAMESPACE|$(namespace)|g; s|REG|$(reg)|g; s|REPO|$(repo)|g" | kubectl apply -f -
-service:	
 	@cat kubernetes/frontend-svc.yaml | sed "s/NAMESPACE|$(namespace)|g" | kubectl apply -f -
